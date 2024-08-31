@@ -47,7 +47,8 @@ public class AppConfig {
 
 //								"https://shopwithzosh.vercel.app",
 //								"https://ecommerce-angular-blue.vercel.app/",
-								"https://adefex-ecom-frontend.vercel.app/"
+								"https://adefex-ecom-frontend.vercel.app/",
+								"adefex-ecomm-backend.railway.internal"
 
 							)
 						);
