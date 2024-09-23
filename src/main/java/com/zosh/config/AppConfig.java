@@ -1,7 +1,6 @@
 package com.zosh.config;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,14 +23,14 @@ public class AppConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and()
-		.authorizeHttpRequests(Authorize -> Authorize
-				.requestMatchers("/api/**").authenticated()
-				.anyRequest().permitAll()
+				.and()
+				.authorizeHttpRequests(Authorize -> Authorize
+						.requestMatchers("/api/**").authenticated()
+						.anyRequest().permitAll()
 				)
-		.addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
-		.csrf().disable()
-		.cors().configurationSource(new CorsConfigurationSource() {
+				.addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+				.csrf().disable()
+				.cors().configurationSource(new CorsConfigurationSource() {
 
 					@Override
 					public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
@@ -39,33 +38,26 @@ public class AppConfig {
 						CorsConfiguration cfg = new CorsConfiguration();
 
 						cfg.setAllowedOrigins(Arrays.asList(
-
 								"https://adefex-ecom-frontend.vercel.app"
-
-							)
-						);
-						cfg.setAllowedMethods(Arrays.asList("GET", "POST","DELETE","PUT"));
-						cfg.setAllowedMethods(Collections.singletonList("*"));
+						));
+						cfg.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS"));
 						cfg.setAllowCredentials(true);
-						cfg.setAllowedHeaders(Collections.singletonList("*"));
+						cfg.setAllowedHeaders(Arrays.asList("*"));
 						cfg.setExposedHeaders(Arrays.asList("Authorization"));
 						cfg.setMaxAge(3600L);
 						return cfg;
-
 					}
 				})
-		.and()
-		.httpBasic()
-		.and()
-		.formLogin();
+				.and()
+				.httpBasic()
+				.and()
+				.formLogin();
 
 		return http.build();
-
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
 }
